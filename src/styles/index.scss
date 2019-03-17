@@ -1,0 +1,44 @@
+
+body {
+  margin: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  position: relative;
+  flex-direction: row;
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  background-color: #3a4149;
+  border-bottom: 1px solid #23282c;
+}
+
+.app-body {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  overflow-x: hidden;
+
+  .main {
+    flex: 1;
+    min-width: 0;
+
+    .container-fluid {
+      padding: 0 30px;
+    }
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+.animated {
+  animation-duration: 1s;
+}
