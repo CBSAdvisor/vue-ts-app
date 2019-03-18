@@ -22,6 +22,9 @@ Vue.config.productionTip = false;
 
 import i18n from '@/i18n';
 
+import VueCookies from 'vue-cookies';
+Vue.use(VueCookies);
+
 new Vue({
   router,
   store,

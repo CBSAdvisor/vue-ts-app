@@ -16,11 +16,20 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-dropdown text="Lang" class="m-md-2" right>
-            <b-dropdown-item active>EN</b-dropdown-item>
-            <b-dropdown-item>ES</b-dropdown-item>
-            <b-dropdown-item @click="changeLang('ru')">RU</b-dropdown-item>
-            <b-dropdown-item>FA</b-dropdown-item>
+          <b-dropdown :text="language.lang" class="m-md-2" right>
+            <b-dropdown-item-button v-for="l in supportedLangs"
+                                    :active="l.locale === language.locale"
+                                    @click="changeLang(l.locale)">
+              <div class="d-flex align-items-center">
+                <img :src="'img/flags/'+l.locale+'.png'"/>
+                <span style="padding-left: 8px;">{{l.label}}</span>
+              </div>
+            </b-dropdown-item-button>
+
+            <!--<b-dropdown-item-button >EN</b-dropdown-item-button>-->
+            <!--<b-dropdown-item-button>ES</b-dropdown-item-button>-->
+            <!--<b-dropdown-item-button @click="changeLang('ru')">RU</b-dropdown-item-button>-->
+            <!--<b-dropdown-item-button>FA</b-dropdown-item-button>-->
           </b-dropdown>
         </b-navbar-nav>
       </b-navbar>
@@ -47,10 +56,23 @@ import ResizeMixin from './mixin/ResizeHandler';
 import {Component} from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
 
+import {AppState, ILocaleInfo} from '@/store/modules';
+
 @Component({ name: 'layout' })
 export default class Layout extends mixins(ResizeMixin) {
-  private changeLang(lang: string) {
-    this.$i18n.locale = lang;
+  public get supportedLangs(): ILocaleInfo[] {
+    return AppState.localeInfos;
+  }
+
+  get language(): ILocaleInfo {
+    // return this.supportedLangs.find((x: ILocaleInfo) => this.$i18n.locale === x.locale);
+    return AppState.selectedLocale;
+  }
+
+  private changeLang(locale: string) {
+    AppState.changeLocale(locale);
+    const state = this.$store.state;
+    // this.$i18n.locale = locale;
   }
 }
 </script>

@@ -8,7 +8,16 @@ Vue.use(VueI18n);
 
 const i18n = new VueI18n({
   locale: 'en', // set default locale
-  messages: { en, ru, }, // set locale messages
+  messages: { en, ru }, // set locale messages
+});
+
+Object.defineProperty(Vue.prototype, '$locale', {
+  get: () => {
+    return i18n.locale;
+  },
+  set: (locale) => {
+    i18n.locale = locale;
+  },
 });
 
 export default i18n;

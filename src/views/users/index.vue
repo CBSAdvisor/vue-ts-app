@@ -1,10 +1,10 @@
 <template>
   <b-row>
-    <span>{{$t('message')}}</span>
     <b-col cols="12" xl="12">
       <transition name="slide">
-        <b-card class="users-card" :header="caption" v-if="!loading">
-          <b-table :hover="hover"
+        <b-card class="users-card" :header="$t(caption)">
+          <b-table :busy="loading"
+                   :hover="hover"
                    tbody-tr-class="tbody-row"
                    :striped="striped"
                    :bordered="bordered"
@@ -17,28 +17,31 @@
                    :per-page="perPage"
                    @row-clicked="rowClicked">
 
-            <!--<template slot="avatar" slot-scope="data">-->
-            <!--<img class="avatar" :src="data.item.avatar" />-->
-            <!--</template>-->
+            <!-- Iterate through fields array -->
+            <!-- A custom formatted header cell for fields -->
+            <template v-for="{key, label} in fields" :slot="'HEAD_'+key" slot-scope="data">
+              {{ $t(data.label) }}
+            </template>
 
-            <template slot="name" slot-scope="data">
+            <template slot="fullName" slot-scope="data">
+              <!-- A custom formatted data column "Full name" cell -->
               <div class="d-flex align-items-center">
                 <img class="avatar" :src="data.item.avatar"/>
                 <span>{{data.item.name}} {{data.item.lastName}}</span>
               </div>
             </template>
 
-            <template slot="email" slot-scope="data">
-              {{data.item.email}}
-            </template>
+            <!--<template slot="email" slot-scope="data">-->
+              <!--{{data.item.email}}-->
+            <!--</template>-->
 
-            <template slot="phone" slot-scope="data">
-              {{data.item.phone}}
-            </template>
+            <!--<template slot="phone" slot-scope="data">-->
+              <!--{{data.item.phone}}-->
+            <!--</template>-->
 
-            <template slot="jobTitle" slot-scope="data">
-              {{data.item.jobTitle}}
-            </template>
+            <!--<template slot="jobTitle" slot-scope="data">-->
+              <!--{{data.item.jobTitle}}-->
+            <!--</template>-->
 
           </b-table>
           <nav>
@@ -78,7 +81,7 @@
     },
   })
   export default class Users extends Vue {
-    @Prop({default: 'Users'}) public caption!: string;
+    @Prop({default: 'PAGE.USERS.TITLE'}) public caption!: string;
     @Prop({default: true}) public hover!: boolean;
     @Prop({default: true}) public striped!: boolean;
     @Prop({default: false}) public bordered!: boolean;
@@ -88,11 +91,10 @@
     public users: IUser[] = [];
 
     private fields = [
-      // {key: 'avatar', label: '', sortable: false},
-      {key: 'name'},
-      {key: 'email'},
-      {key: 'phone'},
-      {key: 'jobTitle'},
+      {key: 'fullName', label: 'PAGE.USERS.COLUMN.FULL_NAME'},
+      {key: 'email', label: 'PAGE.USERS.COLUMN.EMAIL'},
+      {key: 'phone', label: 'PAGE.USERS.COLUMN.PHONE'},
+      {key: 'jobTitle', label: 'PAGE.USERS.COLUMN.JOB_TITLE'},
     ];
     private currentPage: number = 1;
     private perPage: number = 5;

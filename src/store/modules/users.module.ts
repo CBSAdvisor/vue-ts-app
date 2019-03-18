@@ -6,7 +6,7 @@ export interface IUsersState {
 }
 
 @Module({ dynamic: true, store, name: 'users' })
-class Users extends VuexModule implements IUsersState {
+class UsersStateModule extends VuexModule implements IUsersState {
 }
 
-export const UsersModule = getModule(Users);
+export const UsersState = getModule(UsersStateModule);
