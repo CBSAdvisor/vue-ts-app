@@ -1,6 +1,6 @@
 import {VuexModule, Module, MutationAction, Mutation, Action, getModule} from 'vuex-module-decorators';
 import i18n from '@/i18n';
-import store from '@/store';
+import store, {IRootState} from '@/store';
 import Cookies from 'js-cookie';
 
 export interface ILocaleInfo {
@@ -12,9 +12,10 @@ export interface ILocaleInfo {
 /* tslint:disable:no-empty-interface */
 export interface IAppState {
   localeInfos: ILocaleInfo[];
+  selectedLocale: ILocaleInfo;
 }
 
-@Module({ dynamic: true, store, name: 'app' })
+@Module({ name: 'app', dynamic: true, store, namespaced: true })
 class AppStateModule extends VuexModule implements IAppState {
   public localeInfos: ILocaleInfo[] = [
     {locale: 'en', lang: 'EN', label: 'English'},

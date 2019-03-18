@@ -54,25 +54,28 @@
 <script lang="ts">
 import ResizeMixin from './mixin/ResizeHandler';
 import {Component} from 'vue-property-decorator';
+import { State, Action, Getter } from 'vuex-class';
 import { mixins } from 'vue-class-component';
 
-import {AppState, ILocaleInfo} from '@/store/modules';
+import {AppState, ILocaleInfo, IAppState} from '@/store/modules';
 
 @Component({ name: 'layout' })
 export default class Layout extends mixins(ResizeMixin) {
+  @State('app') app: IAppState;
+
   public get supportedLangs(): ILocaleInfo[] {
     return AppState.localeInfos;
   }
 
   get language(): ILocaleInfo {
-    // return this.supportedLangs.find((x: ILocaleInfo) => this.$i18n.locale === x.locale);
     return AppState.selectedLocale;
   }
 
   private changeLang(locale: string) {
     AppState.changeLocale(locale);
+    debugger;
     const state = this.$store.state;
-    // this.$i18n.locale = locale;
+    const appState = this.app;
   }
 }
 </script>

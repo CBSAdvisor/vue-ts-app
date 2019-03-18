@@ -5,7 +5,7 @@ import store from '@/store';
 export interface IUsersState {
 }
 
-@Module({ dynamic: true, store, name: 'users' })
+@Module({ name: 'users', dynamic: true, store, namespaced: true })
 class UsersStateModule extends VuexModule implements IUsersState {
 }
 
