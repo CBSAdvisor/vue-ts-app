@@ -25,11 +25,6 @@
                 <span style="padding-left: 8px;">{{l.label}}</span>
               </div>
             </b-dropdown-item-button>
-
-            <!--<b-dropdown-item-button >EN</b-dropdown-item-button>-->
-            <!--<b-dropdown-item-button>ES</b-dropdown-item-button>-->
-            <!--<b-dropdown-item-button @click="changeLang('ru')">RU</b-dropdown-item-button>-->
-            <!--<b-dropdown-item-button>FA</b-dropdown-item-button>-->
           </b-dropdown>
         </b-navbar-nav>
       </b-navbar>
@@ -61,21 +56,28 @@ import {AppState, ILocaleInfo, IAppState} from '@/store/modules';
 
 @Component({ name: 'layout' })
 export default class Layout extends mixins(ResizeMixin) {
-  @State('app') app: IAppState;
+  @State rootState!: any;
+  @State('app') app!: IAppState;
+  @Action('changeLocale', {namespace: 'app'}) private changeLocale: any;
 
   public get supportedLangs(): ILocaleInfo[] {
-    return AppState.localeInfos;
+    return this.app.localeInfos;
   }
 
   get language(): ILocaleInfo {
     return AppState.selectedLocale;
+    // return this.app.selectedLocale;
   }
 
   private changeLang(locale: string) {
     AppState.changeLocale(locale);
-    debugger;
-    const state = this.$store.state;
-    const appState = this.app;
+    // this.changeLocale(locale);
+    // debugger;
+    // const state = {...this.rootState};
+    // const appState = {
+    //   a: this.app.localeInfos,
+    //   b: this.app.selectedLocale,
+    // };
   }
 }
 </script>

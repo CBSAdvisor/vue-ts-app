@@ -47,5 +47,4 @@ class AppStateModule extends VuexModule implements IAppState {
   }
 }
 
-
 export const AppState = getModule(AppStateModule);

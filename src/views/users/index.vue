@@ -31,18 +31,6 @@
               </div>
             </template>
 
-            <!--<template slot="email" slot-scope="data">-->
-              <!--{{data.item.email}}-->
-            <!--</template>-->
-
-            <!--<template slot="phone" slot-scope="data">-->
-              <!--{{data.item.phone}}-->
-            <!--</template>-->
-
-            <!--<template slot="jobTitle" slot-scope="data">-->
-              <!--{{data.item.jobTitle}}-->
-            <!--</template>-->
-
           </b-table>
           <nav>
             <b-pagination size="sm"
