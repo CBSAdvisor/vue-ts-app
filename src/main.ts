@@ -12,15 +12,14 @@ import '../mock'; // simulation data requests
 
 import App from '@/App.vue';
 import store from '@/store';
+import router from '@/router';
+import i18n from '@/i18n';
 
 import '@/registerServiceWorker';
 
-import router from '@/router';
 Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
-
-import i18n from '@/i18n';
 
 import VueCookies from 'vue-cookies';
 Vue.use(VueCookies);
