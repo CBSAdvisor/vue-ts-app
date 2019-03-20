@@ -25,11 +25,6 @@
                 <span style="padding-left: 8px;">{{l.label}}</span>
               </div>
             </b-dropdown-item-button>
-
-            <!--<b-dropdown-item-button >EN</b-dropdown-item-button>-->
-            <!--<b-dropdown-item-button>ES</b-dropdown-item-button>-->
-            <!--<b-dropdown-item-button @click="changeLang('ru')">RU</b-dropdown-item-button>-->
-            <!--<b-dropdown-item-button>FA</b-dropdown-item-button>-->
           </b-dropdown>
         </b-navbar-nav>
       </b-navbar>
@@ -54,25 +49,33 @@
 <script lang="ts">
 import ResizeMixin from './mixin/ResizeHandler';
 import {Component} from 'vue-property-decorator';
+import { State, Action, Getter } from 'vuex-class';
 import { mixins } from 'vue-class-component';
 
-import {AppState, ILocaleInfo} from '@/store/modules';
+import {ILocaleInfo, IAppState} from '@/store/modules/types';
 
 @Component({ name: 'layout' })
 export default class Layout extends mixins(ResizeMixin) {
+  @State('app') private app!: IAppState;
+  @Getter('selectedLocale', { namespace: 'app' }) private selectedLocale!: ILocaleInfo;
+  @Action('changeLocale', {namespace: 'app'}) private changeLocale: any;
+
   public get supportedLangs(): ILocaleInfo[] {
-    return AppState.localeInfos;
+    return this.app.localeInfos;
   }
 
   get language(): ILocaleInfo {
-    // return this.supportedLangs.find((x: ILocaleInfo) => this.$i18n.locale === x.locale);
-    return AppState.selectedLocale;
+    if (!this.selectedLocale) {
+      this.changeLocale('en');
+    }
+    return this.selectedLocale;
   }
 
   private changeLang(locale: string) {
-    AppState.changeLocale(locale);
-    const state = this.$store.state;
-    // this.$i18n.locale = locale;
+    this.changeLocale(locale).then((x: ILocaleInfo)=> { });
+    // Another way to change locale is call "$store.dispatch"
+    // this.$store.dispatch('app/changeLocale', locale)
+    //   .then((x) => {});
   }
 }
 </script>
