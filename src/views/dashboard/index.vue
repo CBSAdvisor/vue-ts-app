@@ -5,6 +5,9 @@
         <h1 class="mt-4">DASHBOARD</h1>
       </b-col>
     </b-row>
+    <b-row>
+
+    </b-row>
   </div>
 </template>
 
@@ -13,6 +16,13 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Dashboard extends Vue {
+  private showAlert(): void {
+  this.$swal.fire(
+      'Good job!',
+      'You clicked the button!',
+      'success'
+    );
+  }
 }
 </script>
 
