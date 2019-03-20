@@ -1,20 +1,17 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
-import {AppState} from "@/store/modules";
+import Vuex, { StoreOptions } from 'vuex';
+import {IRootState} from './types';
+import {appStateModule} from './modules';
 
 Vue.use(Vuex);
 
-/* tslint:disable:no-empty-interface */
-export interface IRootState {
-  version: string;
-}
-
-// Declare empty store first, dynamically register all modules later.
-export default new Vuex.Store<IRootState>({
+const storeOpt: StoreOptions<IRootState> = {
   state: {
-    version: '1.0.0' // a simple property
+    version: '1.0.0',
   },
-  // modules: {
-  //   app: AppState,
-  // }
-});
+  modules: {
+    app: appStateModule,
+  },
+};
+
+export default new Vuex.Store<IRootState>(storeOpt);

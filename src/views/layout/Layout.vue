@@ -52,12 +52,12 @@ import {Component} from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
 import { mixins } from 'vue-class-component';
 
-import {AppState, ILocaleInfo, IAppState} from '@/store/modules';
+import {ILocaleInfo, IAppState} from '@/store/modules/types';
 
 @Component({ name: 'layout' })
 export default class Layout extends mixins(ResizeMixin) {
-  @State rootState!: any;
-  @State('app') app!: IAppState;
+  @State('app') private app!: IAppState;
+  @Getter('selectedLocale', { namespace: 'app' }) private selectedLocale!: ILocaleInfo;
   @Action('changeLocale', {namespace: 'app'}) private changeLocale: any;
 
   public get supportedLangs(): ILocaleInfo[] {
@@ -65,19 +65,17 @@ export default class Layout extends mixins(ResizeMixin) {
   }
 
   get language(): ILocaleInfo {
-    return AppState.selectedLocale;
-    // return this.app.selectedLocale;
+    if (!this.selectedLocale) {
+      this.changeLocale('en');
+    }
+    return this.selectedLocale;
   }
 
   private changeLang(locale: string) {
-    AppState.changeLocale(locale);
-    // this.changeLocale(locale);
-    // debugger;
-    // const state = {...this.rootState};
-    // const appState = {
-    //   a: this.app.localeInfos,
-    //   b: this.app.selectedLocale,
-    // };
+    this.changeLocale(locale).then((x: ILocaleInfo)=> { });
+    // Another way to change locale is call "$store.dispatch"
+    // this.$store.dispatch('app/changeLocale', locale)
+    //   .then((x) => {});
   }
 }
 </script>
