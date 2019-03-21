@@ -15,7 +15,7 @@
                    :fields="fields"
                    :current-page="currentPage"
                    :per-page="perPage"
-                   @row-clicked="rowClicked">
+                   @row-clicked="onRowClicked">
 
             <!-- Iterate through fields array -->
             <!-- A custom formatted header cell for fields -->
@@ -46,12 +46,12 @@
       </transition>
     </b-col>
 
-    <UserEditor id="userEditor" />
+    <user-editor class="d-flex" id="userEditor" />
 
     <!-- Modal Component -->
-    <b-modal id="editUser" ref="editUser" centered title="Edit">
-      <p class="my-4">Vertically centered modal!</p>
-    </b-modal>
+    <!--<b-modal id="editUser" ref="editUser" centered title="Edit">-->
+      <!--<p class="my-4">Vertically centered modal!</p>-->
+    <!--</b-modal>-->
     <!-- / Modal Component -->
   </b-row>
 </template>
@@ -59,7 +59,7 @@
 <script lang="ts">
   import {Component, Prop, Vue} from 'vue-property-decorator';
   import {service} from '@/api/user.service';
-  import UserEditor from './user.vue';
+  import UserEditor from './user-editor.vue';
   import {IUser} from '@/api/models';
 
   @Component({
@@ -105,10 +105,9 @@
       return items.length;
     }
 
-    private rowClicked(item: any) {
-      // this.$root.$emit('bv::show::modal', 'editUser', '.users-card');
-      // this.$refs.editUser.show();
-      this.$root.$emit('user::editor::show', 'userEditor', item);
+    private onRowClicked(item: IUser) {
+      console.log(`CALL on @row-clicked handler [${item.name} ${item.lastName}]`);
+      this.$root.$emit('user::editor::show', 'userEditor', {...item});
     }
   }
 </script>

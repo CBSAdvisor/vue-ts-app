@@ -10,8 +10,5 @@ declare module 'vue/types/vue' {
   }
 }
 
-//
-
 declare const VueSwAl: PluginFunction<any>;
-
 export default VueSwAl;

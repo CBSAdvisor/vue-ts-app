@@ -6,7 +6,7 @@
       </b-col>
     </b-row>
     <b-row>
-
+      <b-button class="primary" @click="showAlert">SWAL</b-button>
     </b-row>
   </div>
 </template>

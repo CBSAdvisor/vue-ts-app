@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import swal, {SweetAlertOptions} from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
 
 function isBrowser() {
   return typeof window !== 'undefined';
