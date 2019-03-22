@@ -13,7 +13,18 @@ const locale = {
         JOB_TITLE: 'Должность',
         EMAIL: 'E-mail',
         PHONE: 'Тел. №',
-      }, // PAGE.USERS.COLUMN
+      }, // COLUMN
+      EDITOR: {
+        TITLE: 'Редактировать пользователя',
+        SAVE: 'Сохранить',
+        CANCEL: 'Отмена',
+        INPUT: {
+          FIRST_NAME: 'Имя',
+          LAST_NAME: 'Фамилия',
+          EMAIL: 'Email',
+          PHONE: 'Тел. №',
+        },
+      },
     }, // PAGE.USERS
   },
 };
