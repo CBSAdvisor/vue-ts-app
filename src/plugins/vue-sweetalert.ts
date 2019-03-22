@@ -5,31 +5,33 @@ function isBrowser() {
   return typeof window !== 'undefined';
 }
 
-const VueSwAl = function () {};
+const VueSwAl = () => {
+  // Init empty
+};
 
-VueSwAl.install = function (_Vue: any, options: SweetAlertOptions) {
+VueSwAl.install = (inVue: any, options: SweetAlertOptions) => {
   // adding a global method or property
-  let _swal: any;
+  let innerSwal: any;
 
   if (isBrowser()) {
-    _swal = (options ? swal.mixin(options) : swal);
+    innerSwal = (options ? swal.mixin(options) : swal);
   } else {
-    _swal = function () {
+    innerSwal = () => {
       return Promise.resolve();
     };
   }
 
   // Modifying the Global Vue Object
-  _Vue.swal = _swal;
+  inVue.swal = innerSwal;
 
   // Modifying Vue Instances
   // To add a property or method directly to component instances
   // without any injection mechanism, you can modify the Vue prototype
-  if (!_Vue.prototype.hasOwnProperty('$swal')) {
-    Object.defineProperty(_Vue.prototype, '$swal', {
+  if (!inVue.prototype.hasOwnProperty('$swal')) {
+    Object.defineProperty(inVue.prototype, '$swal', {
       get: function get() {
-        return _swal
-      }
+        return innerSwal;
+      },
     });
   }
 };

@@ -100,7 +100,6 @@
     }
 
     private onRowClicked(item: IUser) {
-      console.log(`CALL on @row-clicked handler [${item.name} ${item.lastName}]`);
       this.$root.$emit('user::editor::show', 'userEditor', {...item});
     }
   }

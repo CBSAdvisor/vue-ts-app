@@ -106,7 +106,6 @@
     private user: IUser | null = null;
 
     public show(usr: IUser) {
-      console.log('CALL UserEditor::show');
       this.user = usr;
       this.visible = true;
 
@@ -122,22 +121,21 @@
           },
           showLoaderOnConfirm: true,
           preConfirm: (param: any) => {
-            debugger;
             return new Promise((resolve, reject) => {
               if (this.errors.any()) {
                 let s = '';
-                this.errors.all().forEach(x => { s += `${x}<br/>` });
+                this.errors.all().forEach((x) => { s += `${x}<br/>`; });
                 reject(s);
               }
               resolve({ok: true, statusText: 'Something wrong'});
             })
               .then((data: any) => {
                 if (!data.ok) {
-                  throw new Error(data.statusText)
+                  throw new Error(data.statusText);
                 }
                 return data;
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$swal.showValidationMessage(`${error}`);
               });
           },
@@ -145,13 +143,13 @@
         .fire('')
         .then((x: any) => {
           if (x.value) {
+            // Do something
           }
         });
     }
 
     public mounted() {
       this.$root.$on('user::editor::show', (e: any, item: IUser) => {
-        console.log('CALL $on[user::editor::show] handler');
         this.show(item);
       });
     }

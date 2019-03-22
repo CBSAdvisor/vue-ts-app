@@ -72,7 +72,9 @@ export default class Layout extends mixins(ResizeMixin) {
   }
 
   private changeLang(locale: string) {
-    this.changeLocale(locale).then((x: ILocaleInfo)=> { });
+    this.changeLocale(locale).then((x: ILocaleInfo) => {
+      // Do something after locale changing
+    });
     // Another way to change locale is call "$store.dispatch"
     // this.$store.dispatch('app/changeLocale', locale)
     //   .then((x) => {});

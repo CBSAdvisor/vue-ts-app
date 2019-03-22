@@ -15,7 +15,7 @@ const locale = {
         PHONE: 'Phone #',
       }, // PAGE.USERS.COLUMN
       EDITOR: {
-      }
+      },
     }, // PAGE.USERS
   },
 };

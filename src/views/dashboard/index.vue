@@ -18,9 +18,9 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Dashboard extends Vue {
   private showAlert(): void {
   this.$swal.fire(
-      'Good job!',
-      'You clicked the button!',
-      'success'
+      'TEST',
+      'Alert success text',
+      'success',
     );
   }
 }
