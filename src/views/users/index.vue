@@ -12,14 +12,14 @@
                    :fixed="fixed"
                    responsive="sm"
                    :items="users"
-                   :fields="fields"
+                   :fields="columns"
                    :current-page="currentPage"
                    :per-page="perPage"
                    @row-clicked="onRowClicked">
 
-            <!-- Iterate through fields array -->
-            <!-- A custom formatted header cell for fields -->
-            <template v-for="{key, label} in fields" :slot="'HEAD_'+key" slot-scope="data">
+            <!-- Iterate through columns array -->
+            <!-- A custom formatted header cell for columns -->
+            <template v-for="{key, label} in columns" :slot="'HEAD_'+key" slot-scope="data">
               {{ $t(data.label) }}
             </template>
 
@@ -47,12 +47,6 @@
     </b-col>
 
     <user-editor class="d-flex" id="userEditor" />
-
-    <!-- Modal Component -->
-    <!--<b-modal id="editUser" ref="editUser" centered title="Edit">-->
-      <!--<p class="my-4">Vertically centered modal!</p>-->
-    <!--</b-modal>-->
-    <!-- / Modal Component -->
   </b-row>
 </template>
 
@@ -78,7 +72,7 @@
 
     public users: IUser[] = [];
 
-    private fields = [
+    private columns = [
       {key: 'fullName', label: 'PAGE.USERS.COLUMN.FULL_NAME'},
       {key: 'email', label: 'PAGE.USERS.COLUMN.EMAIL'},
       {key: 'phone', label: 'PAGE.USERS.COLUMN.PHONE'},

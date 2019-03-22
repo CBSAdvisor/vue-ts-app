@@ -9,7 +9,7 @@
           </div>
         </b-card-body>
         <b-card-body>
-          <b-form ref="form" @submit="onSubmit" class="form">
+          <b-form ref="form" class="form">
             <b-form-row class="">
               <b-form-group class="flex-fill mr-1"
                             id="nameGroup"
@@ -17,12 +17,15 @@
                             label-for="nameInput">
                 <b-form-input
                   id="nameInput"
+                  name="user.name"
                   type="text"
                   v-model="user.name"
+                  v-validate="'required'"
                   required
-                  :state="validateOnEmpty(user.name)"
+                  :state="validateState('user.name')"
+                  aria-describedby="nameFeedback"
                   placeholder="Enter first name"/>
-                <b-form-invalid-feedback :state="validateOnEmpty(user.name)">
+                <b-form-invalid-feedback id="nameFeedback">
                   Please enter your first name.
                 </b-form-invalid-feedback>
               </b-form-group>
@@ -32,12 +35,15 @@
                             label-for="lastNameInput">
                 <b-form-input
                   id="lastNameInput"
+                  name="user.lastName"
                   type="text"
                   v-model="user.lastName"
+                  v-validate="'required'"
                   required
-                  :state="validateOnEmpty(user.lastName)"
+                  :state="validateState('user.lastName')"
+                  aria-describedby="lastNameFeedback"
                   placeholder="Enter last name"/>
-                <b-form-invalid-feedback :state="validateOnEmpty(user.lastName)">
+                <b-form-invalid-feedback id="lastNameFeedback">
                   Please enter your last name.
                 </b-form-invalid-feedback>
               </b-form-group>
@@ -50,13 +56,16 @@
                             description="We'll never share your email with anyone else.">
                 <b-form-input
                   id="emailInput"
+                  name="user.email"
                   type="email"
+                  v-validate="'required|email'"
                   v-model="user.email"
                   required
-                  :state="validateEmail"
+                  :state="validateState('user.email')"
+                  aria-describedby="emailInputFeedback"
                   placeholder="Enter email"/>
-                <b-form-invalid-feedback :state="validateEmail">
-                  Please enter a valid email.
+                <b-form-invalid-feedback id="emailInputFeedback">
+                  {{errors.first('user.email')}}
                 </b-form-invalid-feedback>
               </b-form-group>
             </b-form-row>
@@ -68,12 +77,13 @@
                             label-for="phoneInput">
                 <b-form-input
                   id="phoneInput"
+                  name="user.phone"
                   type="text"
                   v-model="user.phone"
                   required
-                  :state="validatePhone"
+                  aria-describedby="phoneInputFeedback"
                   placeholder="Enter phone number"/>
-                <b-form-invalid-feedback :state="validatePhone">
+                <b-form-invalid-feedback id="phoneInputFeedback">
                   Please enter a valid phone number.
                 </b-form-invalid-feedback>
               </b-form-group>
@@ -93,7 +103,7 @@
   @Component({name: 'user-editor'})
   export default class UserEditor extends Vue {
     private visible = false;
-    private user: IUser = null;
+    private user: IUser | null = null;
 
     public show(usr: IUser) {
       console.log('CALL UserEditor::show');
@@ -111,44 +121,32 @@
             content: 'modal-content',
           },
           showLoaderOnConfirm: true,
-          preConfirm: (login) => {
+          preConfirm: (param: any) => {
+            debugger;
             return new Promise((resolve, reject) => {
-              // resolve({ok: true, statusText: 'Something wrong'});
-              // throw new Error('throw some exception');
-              reject('Rejected by some reason');
+              if (this.errors.any()) {
+                let s = '';
+                this.errors.all().forEach(x => { s += `${x}<br/>` });
+                reject(s);
+              }
+              resolve({ok: true, statusText: 'Something wrong'});
             })
-              .then(data => {
+              .then((data: any) => {
                 if (!data.ok) {
                   throw new Error(data.statusText)
                 }
                 return data;
               })
               .catch(error => {
-                this.$swal.showValidationMessage(`Request failed: ${error}`)
-              })
+                this.$swal.showValidationMessage(`${error}`);
+              });
           },
         })
-        .fire(null)
-        .then((x) => {
-          if(x.value) {
+        .fire('')
+        .then((x: any) => {
+          if (x.value) {
           }
-        })
-    }
-
-    private onSubmit(a, b): void {
-      debugger;
-    }
-
-    private validateOnEmpty(val: string): boolean {
-      return !!val && val !== '';
-    }
-
-    private get validateEmail(): boolean {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(this.user.email).toLowerCase());    }
-
-    private get validatePhone(): boolean {
-      return true;
+        });
     }
 
     public mounted() {
@@ -156,6 +154,17 @@
         console.log('CALL $on[user::editor::show] handler');
         this.show(item);
       });
+    }
+
+    private submit(): any {
+      return Promise.resolve(0);
+    }
+
+    private validateState(ref: any): boolean | null {
+      if (this.$veeFields[ref] && (this.$veeFields[ref].dirty || this.$veeFields[ref].validated)) {
+        return !this.errors.has(ref);
+      }
+      return null;
     }
   }
 </script>
