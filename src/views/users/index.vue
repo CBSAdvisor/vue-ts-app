@@ -12,14 +12,14 @@
                    :fixed="fixed"
                    responsive="sm"
                    :items="users"
-                   :fields="fields"
+                   :fields="columns"
                    :current-page="currentPage"
                    :per-page="perPage"
-                   @row-clicked="rowClicked">
+                   @row-clicked="onRowClicked">
 
-            <!-- Iterate through fields array -->
-            <!-- A custom formatted header cell for fields -->
-            <template v-for="{key, label} in fields" :slot="'HEAD_'+key" slot-scope="data">
+            <!-- Iterate through columns array -->
+            <!-- A custom formatted header cell for columns -->
+            <template v-for="{key, label} in columns" :slot="'HEAD_'+key" slot-scope="data">
               {{ $t(data.label) }}
             </template>
 
@@ -46,20 +46,14 @@
       </transition>
     </b-col>
 
-    <UserEditor id="userEditor" />
-
-    <!-- Modal Component -->
-    <b-modal id="editUser" ref="editUser" centered title="Edit">
-      <p class="my-4">Vertically centered modal!</p>
-    </b-modal>
-    <!-- / Modal Component -->
+    <user-editor class="d-flex" id="userEditor" />
   </b-row>
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue} from 'vue-property-decorator';
   import {service} from '@/api/user.service';
-  import UserEditor from './user.vue';
+  import UserEditor from './user-editor.vue';
   import {IUser} from '@/api/models';
 
   @Component({
@@ -78,7 +72,7 @@
 
     public users: IUser[] = [];
 
-    private fields = [
+    private columns = [
       {key: 'fullName', label: 'PAGE.USERS.COLUMN.FULL_NAME'},
       {key: 'email', label: 'PAGE.USERS.COLUMN.EMAIL'},
       {key: 'phone', label: 'PAGE.USERS.COLUMN.PHONE'},
@@ -105,10 +99,9 @@
       return items.length;
     }
 
-    private rowClicked(item: any) {
-      // this.$root.$emit('bv::show::modal', 'editUser', '.users-card');
-      // this.$refs.editUser.show();
-      this.$root.$emit('user::editor::show', 'userEditor', item);
+    private onRowClicked(item: IUser) {
+      console.log(`CALL on @row-clicked handler [${item.name} ${item.lastName}]`);
+      this.$root.$emit('user::editor::show', 'userEditor', {...item});
     }
   }
 </script>
