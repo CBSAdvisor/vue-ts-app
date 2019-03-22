@@ -14,6 +14,8 @@ const locale = {
         EMAIL: 'E-mail',
         PHONE: 'Phone #',
       }, // PAGE.USERS.COLUMN
+      EDITOR: {
+      }
     }, // PAGE.USERS
   },
 };
